@@ -17,7 +17,12 @@
   pointer-events: all; /* Allow interaction only with the overlay */
 }
 
-/* Overlay (蒙层) */
+/* adjust margin between form.cart and button.generate_poster_button */
+.woocommerce div.product form.cart {
+  margin-bottom: 0em; /* remove form.cart's margin bottom 2em */
+}
+
+/* Overlay */
 #poster-overlay {
   display: none; /* Initially hidden */
   position: fixed;
