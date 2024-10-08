@@ -1,4 +1,5 @@
 .woocommerce div.product button.generate_poster_button {
+  height: 44px;
   background-color: var(--wp--preset--color--contrast);
   border-radius: 0.33rem;
   border-color: var(--wp--preset--color--contrast);
@@ -15,11 +16,7 @@
   padding-left: 1rem;
   text-decoration: none;
   pointer-events: all; /* Allow interaction only with the overlay */
-}
-
-/* adjust margin between form.cart and button.generate_poster_button */
-.woocommerce div.product form.cart {
-  margin-bottom: 0em; /* remove form.cart's margin bottom 2em */
+  margin-top: 1em; /* remove form.cart's margin bottom 2em */
 }
 
 /* Overlay */

@@ -19,7 +19,7 @@ add_action('plugins_loaded', 'product_poster_initialize');
 
 function product_poster_initialize() {
     if (function_exists('nv_get_referral_url')) {
-        add_action('wp_enqueue_scripts', 'product_poster_enqueue_scripts');
+        add_action('woocommerce_before_single_product', 'product_poster_enqueue_scripts');
     } else {
         error_log('nv_get_referral_url function not found.');
     }
@@ -27,24 +27,22 @@ function product_poster_initialize() {
 
 // Enqueue necessary scripts and styles
 function product_poster_enqueue_scripts() {
-    if (is_product()) {
-        global $product;
-        $referral_url = nv_get_referral_url();
-        wp_enqueue_script('html2canvas', 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js', array('jquery'), null, true);
-        wp_enqueue_script('qrcode', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js', array('jquery'), null, true);
-        wp_enqueue_script('poster-generator', plugin_dir_url(__FILE__) . 'js/poster-generator.js', array('jquery', 'html2canvas', 'qrcode'), '1.0', true);
-        wp_enqueue_style('poster-generator-style', plugin_dir_url(__FILE__) . 'css/style.css');
+    global $product;
+    $referral_url = nv_get_referral_url();
+    wp_enqueue_script('html2canvas', 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js', array('jquery'), null, true);
+    wp_enqueue_script('qrcode', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js', array('jquery'), null, true);
+    wp_enqueue_script('poster-generator', plugin_dir_url(__FILE__) . 'js/poster-generator.js', array('jquery', 'html2canvas', 'qrcode'), '1.0', true);
+    wp_enqueue_style('poster-generator-style', plugin_dir_url(__FILE__) . 'css/style.css');
         
-        // get current user
-        $current_user = wp_get_current_user();
+    // get current user
+    $current_user = wp_get_current_user();
 
-        // Pass product data and referral URL to JavaScript
-        wp_localize_script('poster-generator', 'productData', array(
-            'name' => $product->get_name(),
-            'image' => wp_get_attachment_image_src($product->get_image_id(), 'full')[0],
-            'referral_url' => $referral_url,
-            'user_name' => $current_user->user_login
-        ));
-    }
+    // Pass product data and referral URL to JavaScript
+    wp_localize_script('poster-generator', 'productData', array(
+        'name' => $product->get_name(),
+        'image' => wp_get_attachment_image_src($product->get_image_id(), 'full')[0],
+        'referral_url' => $referral_url,
+        'user_name' => $current_user->user_login
+    ));
 }
 ?>

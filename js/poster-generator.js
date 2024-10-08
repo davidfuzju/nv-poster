@@ -20,20 +20,21 @@ jQuery(document).ready(function ($) {
   $("#generate-poster").on("click", function () {
     // Set the width of the poster to 375px and reserve space for the QR code
     var posterContent = `
-            <div id="poster" style="width: 375px; background-color: black; text-align: center; padding-top: 20px; padding-bottom: 20px; position: relative; color: white; font-family: 'Roboto', '微软雅黑', sans-serif;">
-                <div id="poster-content" style="margin-bottom: 10px; position: relative;">
-                    <!-- Adding the glow effect behind the product image, centered and with a fixed width of 300px -->
-                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; height: 300px; background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.1) 60%, rgba(0,0,0,0) 100%); border-radius: 50%; z-index: 0;"></div>
-                    <!-- Product image with a fixed width of 300px -->
-                    <img id="product-image" src="${productData.image}" style="width: calc(375px - 95px); height: auto; margin: 0 auto; position: relative; z-index: 1;">
-                </div>
-                <!-- Ensure the product name container is centered, does not overlap with the QR code, and can display up to two lines -->
-                <div id="product-name" style="font-size: 20px; margin: 0 auto; width: calc(375px - 135px); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; line-height: 1.5em;">
-                    ${productData.name}
-                </div>
-                <!-- Adjusted the QR code padding to 10px from bottom and right, and set its size to 50x50 -->
-                <div id="qrcode" style="position: absolute; bottom: 10px; right: 10px;"></div>
-            </div>
+      <div id="poster" style="width: 375px; background-color: black; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 20px 0; margin: 0; color: white; font-family: 'Roboto', '微软雅黑', sans-serif; position: relative;">
+        <!-- poster-content with dynamic height based on its internal image -->
+        <div id="poster-content" style="width: 300px; position: relative;">
+          <!-- Adding the glow effect behind the product image, centered and with a fixed width of 300px -->
+          <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; height: 300px; background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.1) 60%, rgba(0,0,0,0) 100%); border-radius: 50%; z-index: 0;"></div>
+          <!-- Product image with a fixed width of 300px -->
+          <img id="product-image" src="${productData.image}" style="width: 300px; height: auto; z-index: 1; position: relative;">
+        </div>
+        <!-- product-name with fixed height and width, centered and aligned at the bottom -->
+        <div id="product-name" style="height: 50px; font-size: 18px; margin-top: 10px; width: calc(375px - 135px); display: flex; align-items: center; justify-content: center; text-align: center; line-height: 1.5em; overflow: hidden; text-overflow: ellipsis;">
+          ${productData.name}
+        </div>
+        <!-- QR code with padding and 50x50 size, aligned at the bottom-right -->
+        <div id="qrcode" style="position: absolute; bottom: 20px; right: 10px; border: 2px solid white; width: 50px; height: 50px;"></div>
+      </div>
         `;
 
     // Append the poster content to body and generate the QR code with adjusted size (50x50)
@@ -57,7 +58,10 @@ jQuery(document).ready(function ($) {
     var fileName = `${productData.user_name}-${productData.name}-${year}${month}${day}${hours}${minutes}${seconds}.png`;
 
     // Use html2canvas to capture the poster with scale=3 and a fixed width of 375px
-    html2canvas(document.querySelector("#poster"), {}).then((canvas) => {
+    html2canvas(document.querySelector("#poster"), {
+      backgroundColor: "#000000", // Set background color to black to avoid transparency
+      useCORS: true, // Use CORS to load images from external sources
+    }).then((canvas) => {
       var imgData = canvas.toDataURL("image/png");
       $("#poster-preview").attr("src", imgData); // Set the generated image in the overlay
       $("#poster-overlay").css("display", "flex"); // Show the overlay
