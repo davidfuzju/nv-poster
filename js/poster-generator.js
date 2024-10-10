@@ -29,19 +29,19 @@ jQuery(document).ready(function ($) {
           <img id="product-image" src="${productData.image}" style="width: 300px; height: auto; z-index: 1; position: relative;">
         </div>
         <!-- product-name with fixed height and width, centered and aligned at the bottom -->
-        <div id="product-name" style="height: 50px; font-size: 18px; margin-top: 10px; width: calc(375px - 135px); display: flex; align-items: center; justify-content: center; text-align: center; line-height: 1.5em; overflow: hidden; text-overflow: ellipsis;">
+        <div id="product-name" style="height: 60px; font-size: 16px; margin-top: 10px; width: calc(375px - 145px); display: flex; align-items: center; justify-content: center; text-align: center; line-height: 1.5em; overflow: hidden; text-overflow: ellipsis;">
           ${productData.name}
         </div>
-        <!-- QR code with padding and 50x50 size, aligned at the bottom-right -->
-        <div id="qrcode" style="position: absolute; bottom: 10px; right: 10px; border: 2px solid white; width: 60px; height: 60px;"></div>
+        <!-- QR code with padding and 70x70 size, aligned at the bottom-right -->
+        <div id="qrcode" style="position: absolute; bottom: 10px; right: 10px; border: 2px solid white; width: 70px; height: 70px;"></div>
       </div>
         `;
 
     // Append the poster content to body and generate the QR code with adjusted size (50x50)
     $("body").append(posterContent);
     $("#qrcode").qrcode({
-      width: 60,
-      height: 60,
+      width: 70,
+      height: 70,
       text: productData.referral_url,
     });
 
