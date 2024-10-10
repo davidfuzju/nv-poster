@@ -33,15 +33,15 @@ jQuery(document).ready(function ($) {
           ${productData.name}
         </div>
         <!-- QR code with padding and 50x50 size, aligned at the bottom-right -->
-        <div id="qrcode" style="position: absolute; bottom: 20px; right: 10px; border: 2px solid white; width: 50px; height: 50px;"></div>
+        <div id="qrcode" style="position: absolute; bottom: 10px; right: 10px; border: 2px solid white; width: 60px; height: 60px;"></div>
       </div>
         `;
 
     // Append the poster content to body and generate the QR code with adjusted size (50x50)
     $("body").append(posterContent);
     $("#qrcode").qrcode({
-      width: 50,
-      height: 50,
+      width: 60,
+      height: 60,
       text: productData.referral_url,
     });
 
