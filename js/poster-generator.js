@@ -20,7 +20,7 @@ jQuery(document).ready(function ($) {
   $("#generate-poster").on("click", function () {
     // Set the width of the poster to 375px and reserve space for the QR code
     var posterContent = `
-      <div id="poster" style="width: 375px; background-color: black; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 20px 0; margin: 0; color: white; font-family: 'Roboto', '微软雅黑', sans-serif; position: relative;">
+      <div id="poster" style="width: 300px; background-color: black; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; padding: 20px 37.5px; margin: 0; color: white; font-family: 'Roboto', '微软雅黑', sans-serif; position: relative;">
         <!-- poster-content with dynamic height based on its internal image -->
         <div id="poster-content" style="width: 300px; position: relative;">
           <!-- Adding the glow effect behind the product image, centered and with a fixed width of 300px -->
@@ -29,19 +29,19 @@ jQuery(document).ready(function ($) {
           <img id="product-image" src="${productData.image}" style="width: 300px; height: auto; z-index: 1; position: relative;">
         </div>
         <!-- product-name with fixed height and width, centered and aligned at the bottom -->
-        <div id="product-name" style="height: 60px; font-size: 16px; margin-top: 10px; width: calc(375px - 145px); display: flex; align-items: center; justify-content: center; text-align: center; line-height: 1.5em; overflow: hidden; text-overflow: ellipsis;">
+        <div id="product-name" style="height: 100px; font-size: 16px; margin-top: 0px; width: calc(375px - 145px); display: flex; align-items: center; justify-content: flex-start; text-align: left; line-height: 1.5em; overflow: hidden; text-overflow: ellipsis;">
           ${productData.name}
         </div>
         <!-- QR code with padding and 70x70 size, aligned at the bottom-right -->
-        <div id="qrcode" style="position: absolute; bottom: 10px; right: 10px; border: 2px solid white; width: 70px; height: 70px;"></div>
+        <div id="qrcode" style="position: absolute; bottom: 10px; right: 10px; border: 2px solid white; width: 100px; height: 100px;"></div>
       </div>
         `;
 
     // Append the poster content to body and generate the QR code with adjusted size (50x50)
     $("body").append(posterContent);
     $("#qrcode").qrcode({
-      width: 70,
-      height: 70,
+      width: 100,
+      height: 100,
       text: productData.referral_url,
     });
 
@@ -53,7 +53,6 @@ jQuery(document).ready(function ($) {
     var hours = ("0" + currentDate.getHours()).slice(-2);
     var minutes = ("0" + currentDate.getMinutes()).slice(-2);
     var seconds = ("0" + currentDate.getSeconds()).slice(-2);
-
     // Construct the file name with user name, product name, and timestamp
     var fileName = `${productData.user_name}-${productData.name}-${year}${month}${day}${hours}${minutes}${seconds}.png`;
 
