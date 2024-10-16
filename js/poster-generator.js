@@ -26,7 +26,7 @@ jQuery(document).ready(function ($) {
           <!-- Adding the glow effect behind the product image, centered and with a fixed width of 300px -->
           <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; height: 300px; background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.1) 60%, rgba(0,0,0,0) 100%); border-radius: 50%; z-index: 0;"></div>
           <!-- Product image with a fixed width of 300px -->
-          <img id="product-image" src="${productData.image}" style="width: 300px; height: auto; z-index: 1; position: relative;">
+          <img id="product-image" src="${productData.image}" style="width: 300px; height: auto; max-width: 100%; z-index: 1; position: relative;">
         </div>
         <!-- product-name with fixed height and width, centered and aligned at the bottom -->
         <div id="product-name" style="height: 100px; font-size: 16px; margin-top: 0px; width: calc(375px - 145px); display: flex; align-items: center; justify-content: flex-start; text-align: left; line-height: 1.5em; overflow: hidden; text-overflow: ellipsis;">
