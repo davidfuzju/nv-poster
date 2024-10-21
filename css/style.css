@@ -1,24 +1,3 @@
-.woocommerce div.product button.generate_poster_button {
-  height: 44px;
-  background-color: var(--wp--preset--color--contrast);
-  border-radius: 0.33rem;
-  border-color: var(--wp--preset--color--contrast);
-  border-width: 0;
-  color: var(--wp--preset--color--base);
-  font-family: inherit;
-  font-size: var(--wp--preset--font-size--small);
-  font-style: normal;
-  font-weight: 500;
-  line-height: inherit;
-  padding-top: 0.6rem;
-  padding-right: 1rem;
-  padding-bottom: 0.6rem;
-  padding-left: 1rem;
-  text-decoration: none;
-  pointer-events: all; /* Allow interaction only with the overlay */
-  margin-top: 1em; /* remove form.cart's margin bottom 2em */
-}
-
 /* Overlay */
 #poster-overlay {
   display: none; /* Initially hidden */

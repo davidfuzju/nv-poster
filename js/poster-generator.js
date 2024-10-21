@@ -7,17 +7,13 @@ jQuery(document).ready(function ($) {
         </div>
     `);
 
-  // Find the element <p class="stock in-stock"> and insert the button after it
-  var stockElement = $("form.cart");
+  // Set the click event for the close button to remove the overlay and preview image
+  $("#nv-poster-generate-button").on("click", function () {
+    nv_generatePosterAndPopup(); // Call your function when the button is clicked
+  });
 
-  // Check if the element exists, then insert the button after it
-  if (stockElement.length) {
-    stockElement.after(
-      '<button id="generate-poster" class="generate_poster_button button alt">Generate Poster</button>'
-    );
-  }
-
-  $("#generate-poster").on("click", function () {
+  // Function to generate the poster and display it in the overlay
+  function nv_generatePosterAndPopup() {
     // Set the width of the poster to 375px and reserve space for the QR code
     var posterContent = `
       <div id="poster" style="width: 375px; background-color: black; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; padding: 20px 37.5px; margin: 0; color: white; font-family: 'Roboto', '微软雅黑', sans-serif; position: relative; box-sizing: border-box;">
@@ -69,7 +65,7 @@ jQuery(document).ready(function ($) {
       // Remove the poster content after generating the image
       $("#poster").remove();
     });
-  });
+  }
 
   // Close the overlay when the close button is clicked
   $("#close-overlay").on("click", function () {
