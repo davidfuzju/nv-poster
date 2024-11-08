@@ -14,8 +14,21 @@ jQuery(document).ready(function ($) {
 
   // Function to generate the poster and display it in the overlay
   function nv_generatePosterAndPopup() {
-    // Set the width of the poster to 375px and reserve space for the QR code
-    var posterContent = `
+    // Create an iframe to isolate the poster content
+    const iframe = document.createElement("iframe");
+    iframe.style.position = "absolute";
+    iframe.style.border = "none";
+    iframe.style.width = "375px"; // Set a fixed width for the poster
+    iframe.style.height = "auto"; // Allow height to adjust based on content
+    iframe.style.visibility = "hidden"; // Hide the iframe to avoid visual impact
+    document.body.appendChild(iframe); // Append iframe to body
+
+    iframe.onload = function () {
+      const iframeDocument =
+        iframe.contentDocument || iframe.contentWindow.document;
+
+      // Add the poster content inside the iframe
+      iframeDocument.body.innerHTML = `
       <div id="poster" style="width: 375px; background-color: black; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; padding: 20px 37.5px; margin: 0; color: white; font-family: 'Roboto', '微软雅黑', sans-serif; position: relative; box-sizing: border-box;">
         <!-- poster-content with dynamic height based on its internal image -->
         <div id="poster-content" style="width: 300px; position: relative;">
@@ -33,38 +46,37 @@ jQuery(document).ready(function ($) {
       </div>
         `;
 
-    // Append the poster content to body and generate the QR code with adjusted size (50x50)
-    $("body").append(posterContent);
-    $("#qrcode").qrcode({
-      width: 100,
-      height: 100,
-      text: productData.referral_url,
-    });
+      // Generate the QR code inside the iframe
+      $(iframeDocument).find("#qrcode").qrcode({
+        width: 100,
+        height: 100,
+        text: productData.referral_url,
+      });
 
-    // Generate the current timestamp in 'YYYYMMDD-HHmmss' format
-    var currentDate = new Date();
-    var year = currentDate.getFullYear();
-    var month = ("0" + (currentDate.getMonth() + 1)).slice(-2); // Ensure two digits for month
-    var day = ("0" + currentDate.getDate()).slice(-2); // Ensure two digits for day
-    var hours = ("0" + currentDate.getHours()).slice(-2);
-    var minutes = ("0" + currentDate.getMinutes()).slice(-2);
-    var seconds = ("0" + currentDate.getSeconds()).slice(-2);
-    // Construct the file name with user name, product name, and timestamp
-    var fileName = `${productData.user_name}-${productData.name}-${year}${month}${day}${hours}${minutes}${seconds}.png`;
+      const posterElement = iframeDocument.getElementById("poster");
+      // Use html2canvas to capture the poster with scale=3 and a fixed width of 375px
+      html2canvas(posterElement, {
+        backgroundColor: "#000000", // Set background color to black to avoid transparency
+      })
+        .then((canvas) => {
+          var imgData = canvas.toDataURL("image/png");
+          $("#poster-preview").attr("src", imgData); // Set the generated image in the overlay
+          $("#poster-overlay").css("display", "flex"); // Show the overlay
+          $("body").css("overflow", "hidden"); // Disable scrolling on the body
 
-    // Use html2canvas to capture the poster with scale=3 and a fixed width of 375px
-    html2canvas(document.querySelector("#poster"), {
-      backgroundColor: "#000000", // Set background color to black to avoid transparency
-      useCORS: true, // Use CORS to load images from external sources
-    }).then((canvas) => {
-      var imgData = canvas.toDataURL("image/png");
-      $("#poster-preview").attr("src", imgData); // Set the generated image in the overlay
-      $("#poster-overlay").css("display", "flex"); // Show the overlay
-      $("body").css("overflow", "hidden"); // Disable scrolling on the body
+          // Remove the poster content after generating the image
+          iframe.remove();
+        })
+        .catch((e) => {
+          console.error("Failed to generate poster:", e);
 
-      // Remove the poster content after generating the image
-      $("#poster").remove();
-    });
+          // Remove the poster content after generating the image
+          iframe.remove();
+        });
+    };
+
+    // Set the iframe source to an empty document
+    iframe.src = "about:blank";
   }
 
   // Close the overlay when the close button is clicked
