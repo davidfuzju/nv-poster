@@ -56,15 +56,20 @@ jQuery(document).ready(function ($) {
     html2canvas(document.querySelector("#poster"), {
       backgroundColor: "#000000", // Set background color to black to avoid transparency
       useCORS: true, // Use CORS to load images from external sources
-    }).then((canvas) => {
-      var imgData = canvas.toDataURL("image/png");
-      $("#poster-preview").attr("src", imgData); // Set the generated image in the overlay
-      $("#poster-overlay").css("display", "flex"); // Show the overlay
-      $("body").css("overflow", "hidden"); // Disable scrolling on the body
+    })
+      .then((canvas) => {
+        var imgData = canvas.toDataURL("image/png");
+        $("#poster-preview").attr("src", imgData); // Set the generated image in the overlay
+        $("#poster-overlay").css("display", "flex"); // Show the overlay
+        $("body").css("overflow", "hidden"); // Disable scrolling on the body
 
-      // Remove the poster content after generating the image
-      $("#poster").remove();
-    });
+        // Remove the poster content after generating the image
+        $("#poster").remove();
+      })
+      .catch((err) => {
+        // Remove the poster content after generating the image
+        $("#poster").remove();
+      });
   }
 
   // Close the overlay when the close button is clicked
